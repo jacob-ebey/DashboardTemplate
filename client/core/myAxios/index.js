@@ -1,1 +1,3 @@
-export * from './myAxiosActions';
+import myAxiosActions from './myAxiosActions';
+
+export { myAxiosActions };
