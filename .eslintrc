@@ -1,0 +1,28 @@
+{
+  "ecmaFeatures": {
+    "jsx": true,
+    "modules": true
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parser": "babel-eslint",
+  "rules": {
+    "quotes": [2, "single"],
+    "strict": [2, "never"],
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
+    "react/jsx-no-undef" : 2,
+    "react/react-in-jsx-scope": 2,
+    "react/forbid-prop-types": 0,
+    "react/jsx-indent-props": [2, 2],
+    "react/jsx-boolean-value": 0,
+    "react/jsx-sort-prop-types": 0,
+    "comma-dangle": 0,
+    "react/sort-comp": 0
+  },
+  "plugins": [
+    "react"
+  ]
+}
