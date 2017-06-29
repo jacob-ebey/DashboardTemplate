@@ -22,6 +22,27 @@ const { appName } = shellConfig;
 const history = createHistory();
 const store = createStore(reducer, applyMiddleware(thunk));
 
+const getRoutes = (routes) => {
+  if (!routes || !routes.length) {
+    return [];
+  }
+
+  const childRoutes = [];
+  const newRoutes = routes.map((route) => {
+    if (route.childRoutes) {
+      childRoutes.push(...route.childRoutes);
+    }
+    return route;
+  });
+
+  return [
+    ...newRoutes,
+    ...getRoutes(childRoutes),
+  ];
+};
+
+const flatRoutes = getRoutes(routes);
+
 class App extends Component {
   render() {
     return (
@@ -31,7 +52,7 @@ class App extends Component {
             <Shell.component
               title={appName}
               history={history}
-              routes={routes}
+              routes={flatRoutes}
             />
           </Provider>
         </Fabric>

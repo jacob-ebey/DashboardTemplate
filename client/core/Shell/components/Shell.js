@@ -11,25 +11,6 @@ import { Nav } from 'office-ui-fabric-react/lib/Nav';
 
 import * as actions from '../actions';
 
-const getRoutes = (routes) => {
-  if (!routes || !routes.length) {
-    return [];
-  }
-
-  const childRoutes = [];
-  const newRoutes = routes.map((route) => {
-    if (route.childRoutes) {
-      childRoutes.push(...route.childRoutes);
-    }
-    return route;
-  });
-
-  return [
-    ...newRoutes,
-    ...getRoutes(childRoutes),
-  ];
-};
-
 class Shell extends React.Component {
   onMenuItemClicked = (path) => () => {
     const { history, setDrawerState } = this.props;
@@ -40,8 +21,7 @@ class Shell extends React.Component {
   render = () => {
     const { title, history, routes, drawerOpen, setDrawerState } = this.props;
 
-    const flatRoutes = getRoutes(routes);
-    const routesWithLabel = flatRoutes.filter((route) => route.label);
+    const routesWithLabel = routes && routes.filter((route) => route.label);
 
     return (
       <Router history={history}>
@@ -65,7 +45,7 @@ class Shell extends React.Component {
               </div>
               <div className="ms-Grid-col ms-u-sm6 ms-u-md8 ms-u-lg10">
                 {
-                  flatRoutes && flatRoutes.map((route) =>
+                  routes && routes.map((route) =>
                     <Route key={route.path} {...route} />
                   )
                 }
@@ -97,7 +77,6 @@ Shell.propTypes = {
     label: PropTypes.string,
     path: PropTypes.string.isRequired,
     component: PropTypes.func.isRequired,
-    childRoutes: PropTypes.array,
   })),
 
   // mapStateToProps

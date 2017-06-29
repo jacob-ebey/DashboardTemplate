@@ -17,7 +17,6 @@ export default function (loaderParameters) {
         const { loadAction, loaderState: { hasTriedLoad, isLoading }, match: { params } } = this.props;
 
         if (!hasTriedLoad && !isLoading) {
-          console.log('loading');
           loadAction(params);
         }
       }
@@ -40,7 +39,7 @@ export default function (loaderParameters) {
                 isOpen={showGenericError}
                 type={DialogType.normal}
                 onDismiss={this.closeDialog}
-                title='UH-OH, An Error Happened :('
+                title='UH-OH, An Error Occured :('
                 isBlocking={true}
               >
                 <p>An un-recoverable error has occured and you will be re-directed after this dialog is closed.</p>
