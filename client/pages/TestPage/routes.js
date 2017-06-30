@@ -9,7 +9,7 @@ export default [
     exact: true,
     childRoutes: [
       {
-        path: '/test/sub',
+        path: '/test/:id',
         component: TestPage2,
       },
     ]

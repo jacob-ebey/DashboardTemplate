@@ -3,50 +3,56 @@ import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 
-import { List, ListItem } from 'material-ui/List';
+import Graph from 'react-graph-vis';
 
-import { Loader } from '~/client/core';
+const graph = {
+  nodes: [
+    { id: 1, label: 'Node 1' },
+    { id: 2, label: 'Node 2' },
+    { id: 3, label: 'Node 3' },
+    { id: 4, label: 'Node 4' },
+    { id: 5, label: 'Node 5' },
+  ],
+  edges: [
+    { from: 1, to: 2 },
+    { from: 1, to: 3 },
+    { from: 2, to: 4 },
+    { from: 2, to: 5 },
+  ],
+};
 
-import * as actions from '../actions';
-import { testActions } from '../actionTypes';
+const options = {
+  layout: {
+    hierarchical: true,
+  },
+  edges: {
+    color: '#000000',
+  },
+};
 
-class TestPage2 extends React.Component {
+const subStyle = {
+  fontSize: '60%',
+  color: 'gray',
+};
+
+export default class TestPage2 extends React.Component {
   render = () => {
-    const { loaderState: { data } } = this.props;
+    const { match: { params: { id } } } = this.props;
 
     return (
       <div>
-        <h1>Sub Test Page</h1>
+        <h1>Sub Page <span style={subStyle}>{id}</span></h1>
         <Link to="/test">Back</Link>
-        {
-          data ?
-          <List>
-            {
-              data.map((item) =>
-                <ListItem key={item.id} primaryText={item.title} />
-              )
-            }
-          </List> :
-          <p>No Data</p>
-        }
+        <Graph graph={graph} options={options} />
       </div>
     );
   }
 }
 
 TestPage2.propTypes = {
-  loaderState: PropTypes.shape({
-    data: PropTypes.array,
-  }),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
 };
-
-TestPage2.defaultProps = {
-  loaderState: { data: null },
-};
-
-export default Loader({
-  selector: (state) => state.pages.testPage.testPage2Data,
-  loadAction: actions.loadTestData,
-  handleLoad: testActions.handleLoad,
-  loadFailed: testActions.loadFailed,
-})(TestPage2);
