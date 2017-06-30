@@ -21,6 +21,13 @@ export default function (loaderParameters) {
         }
       }
 
+      componentWillUnmount = () => {
+        if (loaderParameters.clearOnBack) {
+          const { reset } = this.props;
+          reset();
+        }
+      }
+
       closeDialog = () => {
         const { reset } = this.props;
         reset();
@@ -84,7 +91,7 @@ export default function (loaderParameters) {
             hasTriedLoad: false,
           });
         },
-        loadAction: () => {
+        loadAction: (params) => {
           dispatch({
             type: loaderParameters.handleLoad,
             isLoading: true,
@@ -92,7 +99,7 @@ export default function (loaderParameters) {
             data: null,
           });
           dispatch((dispatch2) => {
-            Promise.resolve(loaderParameters.loadAction())
+            Promise.resolve(loaderParameters.loadAction(params))
               .then((result) => {
                 dispatch2({
                   type: loaderParameters.handleLoad,

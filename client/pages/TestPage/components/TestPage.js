@@ -55,5 +55,4 @@ export default Loader({
   selector: (state) => state.pages.testPage.testPage2Data,
   loadAction: actions.loadTestData,
   handleLoad: testActions.handleLoad,
-  loadFailed: testActions.loadFailed,
 })(TestPage);

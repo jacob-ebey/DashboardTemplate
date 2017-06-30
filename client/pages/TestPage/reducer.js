@@ -4,6 +4,7 @@ import { createLoaderModel, forceLoad, handleLoad } from '~/client/core';
 
 const initialState = {
   testPage2Data: createLoaderModel(),
+  testPage2ItemData: createLoaderModel(),
 };
 
 export default function(state = initialState, action) {
@@ -14,10 +15,10 @@ export default function(state = initialState, action) {
         testPage2Data: handleLoad(action),
       };
     }
-    case testActions.loadFailed: {
+    case testActions.handleItemLoad: {
       return {
         ...state,
-        testPage2Data: forceLoad(null),
+        testPage2ItemData: handleLoad(action),
       };
     }
   }

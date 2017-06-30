@@ -5,23 +5,12 @@ import { Link } from 'react-router-dom';
 
 import Graph from 'react-graph-vis';
 
-const graph = {
-  nodes: [
-    { id: 1, label: 'Node 1' },
-    { id: 2, label: 'Node 2' },
-    { id: 3, label: 'Node 3' },
-    { id: 4, label: 'Node 4' },
-    { id: 5, label: 'Node 5' },
-  ],
-  edges: [
-    { from: 1, to: 2 },
-    { from: 1, to: 3 },
-    { from: 2, to: 4 },
-    { from: 2, to: 5 },
-  ],
-};
+import { Loader } from '~/client/core';
 
-const options = {
+import * as actions from '../actions';
+import { testActions } from '../actionTypes';
+
+const graphOptions = {
   layout: {
     hierarchical: true,
   },
@@ -35,24 +24,38 @@ const subStyle = {
   color: 'gray',
 };
 
-export default class TestPage2 extends React.Component {
+class TestPage2 extends React.Component {
   render = () => {
-    const { match: { params: { id } } } = this.props;
+    const { loaderState: { data } } = this.props;
+    const { id } = data;
 
     return (
       <div>
         <h1>Sub Page <span style={subStyle}>{id}</span></h1>
         <Link to="/test">Back</Link>
-        <Graph graph={graph} options={options} />
+        <Graph graph={data} options={graphOptions} />
       </div>
     );
   }
 }
 
 TestPage2.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
+  loaderState: PropTypes.shape({
+    data: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      nodes: PropTypes.array,
+      edges: PropTypes.array,
     }),
-  }).isRequired,
+  }),
 };
+
+TestPage2.defaultProps = {
+  loaderState: { data: null },
+};
+
+export default Loader({
+  selector: (state) => state.pages.testPage.testPage2ItemData,
+  loadAction: actions.loadTestItem,
+  handleLoad: testActions.handleItemLoad,
+  clearOnBack: true,
+})(TestPage2);
