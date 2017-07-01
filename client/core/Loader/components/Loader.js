@@ -43,11 +43,12 @@ export default function (loaderParameters) {
                 size={SpinnerSize.large}
               />
               <Dialog
-                isOpen={showGenericError}
-                type={DialogType.normal}
-                onDismiss={this.closeDialog}
                 title='UH-OH, An Error Occured :('
-                isBlocking={true}
+                hidden={!showGenericError}
+                onDismiss={this.closeDialog}
+                modalProps={{
+                  isBlocking: true,
+                }}
               >
                 <p>An un-recoverable error has occured and you will be re-directed after this dialog is closed.</p>
 
