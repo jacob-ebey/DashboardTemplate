@@ -78,10 +78,15 @@ SearchPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      query: PropTypes.string,
+    }),
+  }),
 };
 
 SearchPage.defaultProps = {
-  loaderState: { data: null },
+  match: { params: { query: null } },
 };
 
 const mapStateToProps = (state, ownProps) => {
