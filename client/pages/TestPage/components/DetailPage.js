@@ -11,13 +11,22 @@ import * as actions from '../actions';
 import { testActions } from '../actionTypes';
 
 const graphOptions = {
+  width: '100%',
+  height: '100%',
   layout: {
     hierarchical: false,
   },
   edges: {
+    smooth: true,
     color: '#000000',
   },
+  physics: {
+    stabilization: true
+  },
+  autoResize: true,
 };
+
+const graphStyle = { width: '100%', height: '480px' };
 
 const subStyle = {
   fontSize: '60%',
@@ -36,7 +45,7 @@ class DetailPage extends React.Component {
         <p>Data from <a href={source}>{origin}</a></p>
 
         <h2>Donations from top contributors: {total}</h2>
-        <Graph graph={{ nodes, edges }} options={graphOptions} />
+        <Graph graph={{ nodes, edges }} style={graphStyle} options={graphOptions} />
       </div>
     );
   }

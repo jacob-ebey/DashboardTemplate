@@ -32,7 +32,7 @@ class Shell extends React.Component {
           />
           <div className="ms-Grid">
             <div className="ms-Grid-row">
-              <div className="ms-Grid-col ms-u-sm6 ms-u-md4 ms-u-lg2">
+              <div className="ms-Grid-col ms-u-md4 ms-u-lg3">
                 <Nav
                   groups={[
                     {
@@ -43,7 +43,7 @@ class Shell extends React.Component {
                   ]}
                 />
               </div>
-              <div className="ms-Grid-col ms-u-sm6 ms-u-md8 ms-u-lg10">
+              <div className="ms-Grid-col ms-u-md8 ms-u-lg19">
                 {
                   routes && routes.map((route) =>
                     <Route key={route.path} {...route} />
