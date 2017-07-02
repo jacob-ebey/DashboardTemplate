@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+
 import { Form, Field, reduxForm } from 'redux-form';
 
 import NativeListener from 'react-native-listener';
@@ -82,11 +84,20 @@ SearchPage.defaultProps = {
   loaderState: { data: null },
 };
 
-export default reduxForm({
-  form: 'searchPage',
-  destroyOnUnmount: false,
-})(Loader({
-  selector: (state) => state.pages.searchPage.searchResults,
-  loadAction: actions.search,
-  handleLoad: testActions.handleSearchLoad,
-})(SearchPage));
+const mapStateToProps = (state, ownProps) => {
+  const { match: { params: { query } } } = ownProps;
+  return {
+    initialValues: { search: query },
+  };
+};
+
+export default connect(mapStateToProps)(
+  reduxForm({
+    form: 'searchPage',
+    destroyOnUnmount: false,
+  })(Loader({
+    selector: (state) => state.pages.searchPage.searchResults,
+    loadAction: actions.search,
+    handleLoad: testActions.handleSearchLoad,
+  })(SearchPage))
+);

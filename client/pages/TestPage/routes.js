@@ -9,6 +9,10 @@ export default [
     exact: true,
     childRoutes: [
       {
+        path: '/search/:query',
+        component: SearchPage,
+      },
+      {
         path: '/detail/:id',
         component: DetailPage,
       },
