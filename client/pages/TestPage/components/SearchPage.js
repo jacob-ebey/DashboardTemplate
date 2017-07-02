@@ -1,65 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Link } from 'react-router-dom';
+import { Form, Field, reduxForm } from 'redux-form';
 
 import NativeListener from 'react-native-listener';
 
 import { IconButton } from 'office-ui-fabric-react/lib/Button';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { List, ListItem } from 'material-ui/List';
 
 import { Loader } from '~/client/core';
 
+import { FabricTextField, Validations } from '~/client/redux-forms-fabric';
+
 import * as actions from '../actions';
 import { testActions } from '../actionTypes';
 
-const validateZip = (value) => {
-  if (!/^\d{5}(-\d{4})?$/.test(value)) {
-    return 'Not a valid zipcode';
-  }
-};
-
 class SearchPage extends React.Component {
-  state = {
-    query: null,
-  };
-
   onItemSelected = (id) => () => {
     const { history } = this.props;
     history.push(`/detail/${id}`);
   }
 
-  onSearchChanged = (newValue) => {
-    this.setState({ query: newValue });
-  }
+  onSubmit = (values) => {
+    const { loadAction } = this.props;
 
-  onKeyDown = (e) => {
-    const { loadAction, loaderState: { isLoading } } = this.props;
-
-    if (e.key === 'Enter') {
-      if (!isLoading) {
-        loadAction({ query: this.state.query });
-      }
-    }
+    loadAction({ query: values.search });
   }
 
   render = () => {
-    const { loaderState: { data } } = this.props;
+    const { handleSubmit, loaderState: { data } } = this.props;
 
-    // TODO: Use redux-form instead of storing values in state.
     return (
       <div>
         <h1>Search Page</h1>
-        <NativeListener onKeyDown={this.onKeyDown}>
-          <TextField
-            label="ZipCode"
-            iconProps={{ iconName: 'Search' }}
-            value={this.state.query}
-            onChanged={this.onSearchChanged}
-            onGetErrorMessage={validateZip}
+        <Form onSubmit={handleSubmit(this.onSubmit)}>
+          <Field
+            name="search"
+            component={FabricTextField}
+            validate={Validations.validateZip}
+            props={{
+              label: 'ZipCode',
+              iconProps: { iconName: 'Search' },
+            }}
           />
-        </NativeListener>
+        </Form>
         {!data && <p>No results</p>}
         {
           data && (
@@ -84,6 +68,9 @@ SearchPage.propTypes = {
     data: PropTypes.array,
   }).isRequired,
 
+  // reduxForm props
+  handleSubmit: PropTypes.func.isRequired,
+
   // Router props
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
@@ -94,8 +81,11 @@ SearchPage.defaultProps = {
   loaderState: { data: null },
 };
 
-export default Loader({
+export default reduxForm({
+  form: 'searchPage',
+  destroyOnUnmount: false,
+})(Loader({
   selector: (state) => state.pages.searchPage.searchResults,
   loadAction: actions.search,
   handleLoad: testActions.handleSearchLoad,
-})(SearchPage);
+})(SearchPage));

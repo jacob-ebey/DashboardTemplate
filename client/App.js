@@ -20,7 +20,13 @@ import routes from './routes';
 const { appName } = shellConfig;
 
 const history = createHistory();
-const store = createStore(reducer, applyMiddleware(loggerMiddleware, thunk));
+const store = createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  applyMiddleware(
+    loggerMiddleware, thunk
+  )
+);
 
 const getRoutes = (routes) => {
   if (!routes || !routes.length) {
