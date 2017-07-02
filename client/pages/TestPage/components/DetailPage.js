@@ -62,12 +62,8 @@ DetailPage.propTypes = {
       source: PropTypes.string.isRequired,
       nodes: PropTypes.array.isRequired,
       edges: PropTypes.array.isRequired,
-    }),
-  }),
-};
-
-DetailPage.defaultProps = {
-  loaderState: { data: null },
+    }).isRequired,
+  }).isRequired,
 };
 
 export default Loader({
