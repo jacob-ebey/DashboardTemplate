@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 
-import { Form, Field, reduxForm } from 'redux-form';
+import { Form, Field, reduxForm, formValueSelector } from 'redux-form';
 
 import NativeListener from 'react-native-listener';
 
@@ -12,10 +12,24 @@ import { List, ListItem } from 'material-ui/List';
 
 import { Loader } from '~/client/core';
 
-import { FabricTextField, Validations } from '~/client/redux-forms-fabric';
+import { FabricSelectField, FabricTextField, Validations } from '~/client/redux-forms-fabric';
 
 import * as actions from '../actions';
 import { testActions } from '../actionTypes';
+
+
+const formName = 'searchPage';
+const formSelector = formValueSelector(formName);
+
+const mapStateToProps = (state, ownProps) => {
+  const { match: { params: { method, query } } } = ownProps;
+  return {
+    initialValues: { query: query, method: method || 'zip' },
+    formValues: {
+      method: formSelector(state, 'method'),
+    },
+  };
+};
 
 class SearchPage extends React.Component {
   onItemSelected = (id) => () => {
@@ -26,38 +40,49 @@ class SearchPage extends React.Component {
   onSubmit = (values) => {
     const { loadAction } = this.props;
 
-    loadAction({ query: values.search });
+    loadAction({ query: values.query, method: values.method });
   }
 
   render = () => {
-    const { handleSubmit, loaderState: { data } } = this.props;
+    const { handleSubmit, loaderState: { data }, formValues: { method } } = this.props;
 
     return (
       <div>
         <h1>Search Page</h1>
         <Form onSubmit={handleSubmit(this.onSubmit)}>
           <Field
-            name="search"
-            component={FabricTextField}
-            validate={Validations.validateZip}
+            name="method"
+            component={FabricSelectField}
+            validate={Validations.required}
             props={{
-              label: 'ZipCode',
+              label: 'Search By',
+              options: [
+                { key: 'zip', text: 'Zip' },
+                { key: 'name', text: 'Name' }
+              ]
+            }}
+          />
+          <Field
+            name="query"
+            component={FabricTextField}
+            validate={method === 'zip' ? Validations.validateZip : Validations.required}
+            props={{
+              label: 'Query',
               iconProps: { iconName: 'Search' },
               autoComplete: 'off',
             }}
           />
         </Form>
-        {!data && <p>No results</p>}
+        {(!data || data.length === 0) && <p>No results</p>}
         {
-          data && (
-            <List>
-              {
-                data.map((item) =>
-                  <ListItem key={item.id} primaryText={item.name} onClick={this.onItemSelected(item.id)} />
-                )
-              }
-            </List>
-          )
+          data && data.length > 0 &&
+          <List>
+            {
+              data.map((item) =>
+                <ListItem key={item.id} primaryText={item.name} onClick={this.onItemSelected(item.id)} />
+              )
+            }
+          </List>
         }
       </div>
     );
@@ -65,6 +90,11 @@ class SearchPage extends React.Component {
 }
 
 SearchPage.propTypes = {
+  // component props
+  formValues: PropTypes.shape({
+    method: PropTypes.string,
+  }),
+
   // Loader props
   reset: PropTypes.func.isRequired,
   loaderState: PropTypes.shape({
@@ -86,19 +116,14 @@ SearchPage.propTypes = {
 };
 
 SearchPage.defaultProps = {
-  match: { params: { query: null } },
-};
+  formValues: { searchMethod: null },
 
-const mapStateToProps = (state, ownProps) => {
-  const { match: { params: { query } } } = ownProps;
-  return {
-    initialValues: { search: query },
-  };
+  match: { params: { query: null } },
 };
 
 export default connect(mapStateToProps)(
   reduxForm({
-    form: 'searchPage',
+    form: formName,
     destroyOnUnmount: false,
   })(Loader({
     selector: (state) => state.pages.searchPage.searchResults,

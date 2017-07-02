@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export const search = async (params) => {
-  if (params.query) {
-    const response = await axios.get(`/api/search/${params.query}`);
+  if (params.query && params.method) {
+    const response = await axios.get(`/api/search/${params.method}/${params.query}`);
     return response.data;
   }
   return null;

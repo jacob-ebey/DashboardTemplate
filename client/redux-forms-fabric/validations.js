@@ -1,3 +1,9 @@
+export const required = (value) => {
+  if (!value || value.length === 0) {
+    return 'Required';
+  }
+};
+
 export const validateZip = (value) => {
   if (!value || value.length === 0) {
     return 'Please enter a zipcode';

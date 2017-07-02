@@ -1,3 +1,4 @@
+import FabricSelectField from './FabricSelectField';
 import FabricTextField from './FabricTextField';
 
-export { FabricTextField };
+export { FabricSelectField, FabricTextField };

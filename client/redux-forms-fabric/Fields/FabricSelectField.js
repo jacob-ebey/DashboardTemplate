@@ -1,28 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { Dropdown } from 'office-ui-fabric-react/lib/Dropdown';
 
-export default class FabricTextField extends React.Component {
+export default class FabricSelectField extends React.Component {
   render = () => {
-    const { input, meta, ...rest } = this.props;
+    const { input, meta, options, ...rest } = this.props;
     const { value, onBlur, onChange, onFocus } = input;
     const { dirty, error } = meta;
 
     return (
-      <TextField
-        value={value || ''}
-        onChanged={onChange}
+      <Dropdown
+        selectedKey={value || ''}
+        onChanged={(value) => onChange(value.key)}
         onBlur={onBlur}
         onFocus={onFocus}
-        onGetErrorMessage={() => dirty ? error : ''}
+        errorMessage={dirty ? error : null}
+        options={options}
         {...rest}
       />
     );
   }
 }
 
-FabricTextField.propTypes = {
+FabricSelectField.propTypes = {
   input: PropTypes.shape({
     value: PropTypes.string,
     onBlur: PropTypes.func.isRequired,
@@ -33,9 +34,12 @@ FabricTextField.propTypes = {
     dirty: PropTypes.bool,
     error: PropTypes.string,
   }).isRequired,
-  type: PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.any,
+    text: PropTypes.string,
+  })),
 };
 
-FabricTextField.defaultProps = {
-  type: 'text',
+FabricSelectField.defaultProps = {
+  options: null,
 };

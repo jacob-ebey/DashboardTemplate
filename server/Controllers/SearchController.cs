@@ -13,11 +13,20 @@ namespace Server.Controllers
     {
         HttpClient _client = new HttpClient();
         [HttpGet]
-        [Route("/api/search/{query}")]
-        public async Task<IActionResult> Values(string query)
+        [Route("/api/search/{method}/{query}")]
+        public async Task<IActionResult> Values(string method, string query)
         {
-            var result = await _client.GetAsync($"https://congress.api.sunlightfoundation.com/legislators/locate?zip={query}&per_page=all");
-            var json = await result.Content.ReadAsStringAsync();
+            string json = null;
+            if (method == "zip")
+            {
+                var result = await _client.GetAsync($"https://congress.api.sunlightfoundation.com/legislators/locate?zip={query}&per_page=all");
+                json = await result.Content.ReadAsStringAsync();
+            }
+            else
+            {
+                var result = await _client.GetAsync($"https://congress.api.sunlightfoundation.com/legislators?query={query}&per_page=all");
+                json = await result.Content.ReadAsStringAsync();
+            }
 
             var definition = new
             {
@@ -25,7 +34,7 @@ namespace Server.Controllers
             };
 
             var response = JsonConvert.DeserializeAnonymousType(json, definition);
-            
+
             return Ok(response.results.Select(r => new
             {
                 Id = r.crp_id,

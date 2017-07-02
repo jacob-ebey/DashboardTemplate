@@ -9,7 +9,7 @@ export default [
     exact: true,
     childRoutes: [
       {
-        path: '/search/:query',
+        path: '/search/:method/:query',
         component: SearchPage,
       },
       {
