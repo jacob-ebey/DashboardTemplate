@@ -13,14 +13,14 @@ import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
 
 import { shellConfig } from '~/client/appConfig';
 
-import { Shell } from './core';
+import { loggerMiddleware, Shell } from './core';
 import reducer from './reducer';
 import routes from './routes';
 
 const { appName } = shellConfig;
 
 const history = createHistory();
-const store = createStore(reducer, applyMiddleware(thunk));
+const store = createStore(reducer, applyMiddleware(loggerMiddleware, thunk));
 
 const getRoutes = (routes) => {
   if (!routes || !routes.length) {

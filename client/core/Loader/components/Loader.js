@@ -87,6 +87,7 @@ export default function (loaderParameters) {
         reset: () => {
           dispatch({
             type: loaderParameters.handleLoad,
+            subType: 'reset',
             isLoading: false,
             showGenericError: false,
             hasTriedLoad: false,
@@ -95,6 +96,7 @@ export default function (loaderParameters) {
         loadAction: (params) => {
           dispatch({
             type: loaderParameters.handleLoad,
+            subType: 'load',
             isLoading: true,
             showGenericError: false,
             data: null,
@@ -104,6 +106,7 @@ export default function (loaderParameters) {
               .then((result) => {
                 dispatch2({
                   type: loaderParameters.handleLoad,
+                  subType: 'done',
                   isLoading: false,
                   showGenericError: false,
                   data: result,
@@ -113,18 +116,21 @@ export default function (loaderParameters) {
                 if (loaderParameters.loadFailed) {
                   dispatch2({
                     type: loaderParameters.handleLoad,
+                    subType: 'failed',
                     isLoading: true,
                     showGenericError: true,
                     data: null,
                   });
                   dispatch2({
                     type: loaderParameters.loadFailed,
+                    subType: 'failed',
                     exception,
                   });
                 }
                 else {
                   dispatch2({
                     type: loaderParameters.handleLoad,
+                    subType: 'failed',
                     isLoading: true,
                     showGenericError: true,
                     data: null,
