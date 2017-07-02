@@ -44,7 +44,7 @@ class DetailPage extends React.Component {
         <p>{notice}</p>
         <p>Data from <a href={source}>{origin}</a></p>
 
-        <h2>Donations from top contributors: {total}</h2>
+        <h2>Donations from top {nodes.length - 1} contributors: {total}</h2>
         <Graph graph={{ nodes, edges }} style={graphStyle} options={graphOptions} />
       </div>
     );
