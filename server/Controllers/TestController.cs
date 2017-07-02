@@ -13,13 +13,13 @@ namespace Server.Controllers
             {
                 new
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    Title = "Test Item 1"
+                    Id = "N00003389",
+                    Title = "Mitch McConnell (R)"
                 },
                 new
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    Title = "Test Item 2"
+                    Id = "N00007360",
+                    Title = "Nancy Pelosi (D)"
                 },
             });
         }

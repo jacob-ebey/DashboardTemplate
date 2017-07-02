@@ -6,6 +6,6 @@ export const loadTestData = async () => {
 };
 
 export const loadTestItem = async (params) => {
-  const response = await axios.get(`/api/test/${params.id}`);
+  const response = await axios.get(`/api/contrib/${params.id}`);
   return response.data;
 };

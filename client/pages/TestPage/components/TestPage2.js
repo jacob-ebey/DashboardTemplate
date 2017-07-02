@@ -12,7 +12,7 @@ import { testActions } from '../actionTypes';
 
 const graphOptions = {
   layout: {
-    hierarchical: true,
+    hierarchical: false,
   },
   edges: {
     color: '#000000',
@@ -27,13 +27,16 @@ const subStyle = {
 class TestPage2 extends React.Component {
   render = () => {
     const { loaderState: { data } } = this.props;
-    const { id } = data;
+    const { name, total, cycle, origin, notice, source, nodes, edges } = data;
 
     return (
       <div>
-        <h1>Sub Page <span style={subStyle}>{id}</span></h1>
-        <Link to="/test">Back</Link>
-        <Graph graph={data} options={graphOptions} />
+        <h1>{name} <span style={subStyle}>{cycle} Contributions</span></h1>
+        <p>{notice}</p>
+        <p>Data from <a href={source}>{origin}</a></p>
+
+        <h2>Donations from top contributors: {total}</h2>
+        <Graph graph={{ nodes, edges }} options={graphOptions} />
       </div>
     );
   }
@@ -42,9 +45,14 @@ class TestPage2 extends React.Component {
 TestPage2.propTypes = {
   loaderState: PropTypes.shape({
     data: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      nodes: PropTypes.array,
-      edges: PropTypes.array,
+      name: PropTypes.string.isRequired,
+      total: PropTypes.string.isRequired,
+      cycle: PropTypes.string.isRequired,
+      origin: PropTypes.string.isRequired,
+      notice: PropTypes.string.isRequired,
+      source: PropTypes.string.isRequired,
+      nodes: PropTypes.array.isRequired,
+      edges: PropTypes.array.isRequired,
     }),
   }),
 };
