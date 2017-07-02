@@ -1,5 +1,5 @@
 
 export const testActions = {
-  handleLoad: 'TEST_PAGE/HANDLE_LOAD',
-  handleItemLoad: 'TEST_PAGE/HANDLE_ITEM_LOAD'
+  handleSearchLoad: 'TEST_PAGE/HANDLE_SEARCH_LOAD',
+  handleDetailLoad: 'TEST_PAGE/HANDLE_DETAIL_LOAD'
 };

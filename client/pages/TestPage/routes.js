@@ -1,16 +1,16 @@
-import TestPage from './components/TestPage';
-import TestPage2 from './components/TestPage2';
+import SearchPage from './components/SearchPage';
+import DetailPage from './components/DetailPage';
 
 export default [
   {
-    label: 'Test Page',
-    path: '/test',
-    component: TestPage,
+    label: 'Search Page',
+    path: '/search',
+    component: SearchPage,
     exact: true,
     childRoutes: [
       {
-        path: '/test/:id',
-        component: TestPage2,
+        path: '/detail/:id',
+        component: DetailPage,
       },
     ]
   }

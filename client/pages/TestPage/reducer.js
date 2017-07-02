@@ -3,22 +3,22 @@ import { testActions } from './actionTypes';
 import { createLoaderModel, forceLoad, handleLoad } from '~/client/core';
 
 const initialState = {
-  testPage2Data: createLoaderModel(),
-  testPage2ItemData: createLoaderModel(),
+  searchResults: createLoaderModel(),
+  detailData: createLoaderModel(),
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case testActions.handleLoad: {
+    case testActions.handleSearchLoad: {
       return {
         ...state,
-        testPage2Data: handleLoad(action),
+        searchResults: handleLoad(action),
       };
     }
-    case testActions.handleItemLoad: {
+    case testActions.handleDetailLoad: {
       return {
         ...state,
-        testPage2ItemData: handleLoad(action),
+        detailData: handleLoad(action),
       };
     }
   }

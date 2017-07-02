@@ -24,7 +24,7 @@ const subStyle = {
   color: 'gray',
 };
 
-class TestPage2 extends React.Component {
+class DetailPage extends React.Component {
   render = () => {
     const { loaderState: { data } } = this.props;
     const { name, total, cycle, origin, notice, source, nodes, edges } = data;
@@ -42,7 +42,7 @@ class TestPage2 extends React.Component {
   }
 }
 
-TestPage2.propTypes = {
+DetailPage.propTypes = {
   loaderState: PropTypes.shape({
     data: PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -57,13 +57,13 @@ TestPage2.propTypes = {
   }),
 };
 
-TestPage2.defaultProps = {
+DetailPage.defaultProps = {
   loaderState: { data: null },
 };
 
 export default Loader({
-  selector: (state) => state.pages.testPage.testPage2ItemData,
-  loadAction: actions.loadTestItem,
-  handleLoad: testActions.handleItemLoad,
+  selector: (state) => state.pages.searchPage.detailData,
+  loadAction: actions.loadDetailData,
+  handleLoad: testActions.handleDetailLoad,
   clearOnBack: true,
-})(TestPage2);
+})(DetailPage);
