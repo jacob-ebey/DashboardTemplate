@@ -41,6 +41,7 @@ class SearchPage extends React.Component {
             props={{
               label: 'ZipCode',
               iconProps: { iconName: 'Search' },
+              autoComplete: 'off',
             }}
           />
         </Form>
