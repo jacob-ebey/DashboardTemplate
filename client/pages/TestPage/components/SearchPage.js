@@ -68,7 +68,6 @@ class SearchPage extends React.Component {
             validate={Validations.required}
             props={{
               label: 'Date',
-              required: true,
             }}
           />
           <Field

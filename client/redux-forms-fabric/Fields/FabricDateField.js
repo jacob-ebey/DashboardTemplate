@@ -6,11 +6,6 @@ import {
   DayOfWeek,
 } from 'office-ui-fabric-react/lib/DatePicker';
 
-const errorStyle = {
-  color: 'red',
-  margin: 0,
-  fontSize: '60%',
-};
 
 export default class FabricDateField extends React.Component {
   render = () => {
@@ -32,7 +27,11 @@ export default class FabricDateField extends React.Component {
           {...rest}
         />
         {
-          error ? <span style={errorStyle}>{error}</span> : null
+          error ?
+            <span className="fabricError ms-TextField-errorMessage css-180bpec errorMessage_277345e8">
+              <i className="ms-Icon ms-Icon--Info css-liugll errorIcon_277345e8" aria-hidden="true" />
+              {error}
+            </span> : null
         }
       </div>
     );
