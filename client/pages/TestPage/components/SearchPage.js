@@ -7,12 +7,12 @@ import { Form, Field, reduxForm, formValueSelector } from 'redux-form';
 
 import NativeListener from 'react-native-listener';
 
-import { IconButton } from 'office-ui-fabric-react/lib/Button';
+import { CommandButton, IconButton } from 'office-ui-fabric-react/lib/Button';
 import { List, ListItem } from 'material-ui/List';
 
 import { Loader } from '~/client/core';
 
-import { FabricSelectField, FabricTextField, Validations } from '~/client/redux-forms-fabric';
+import { FabricDateField, FabricSelectField, FabricTextField, Validations } from '~/client/redux-forms-fabric';
 
 import * as actions from '../actions';
 import { testActions } from '../actionTypes';
@@ -24,7 +24,7 @@ const formSelector = formValueSelector(formName);
 const mapStateToProps = (state, ownProps) => {
   const { match: { params: { method, query } } } = ownProps;
   return {
-    initialValues: { query: query, method: method || 'zip' },
+    initialValues: { query: query, method: method || 'zip', date: new Date() },
     formValues: {
       method: formSelector(state, 'method'),
     },
@@ -44,7 +44,7 @@ class SearchPage extends React.Component {
   }
 
   render = () => {
-    const { handleSubmit, loaderState: { data }, formValues: { method } } = this.props;
+    const { handleSubmit, valid, loaderState: { data }, formValues: { method } } = this.props;
 
     return (
       <div>
@@ -63,6 +63,15 @@ class SearchPage extends React.Component {
             }}
           />
           <Field
+            name="date"
+            component={FabricDateField}
+            validate={Validations.required}
+            props={{
+              label: 'Date',
+              required: true,
+            }}
+          />
+          <Field
             name="query"
             component={FabricTextField}
             validate={method === 'zip' ? Validations.validateZip : Validations.required}
@@ -72,6 +81,14 @@ class SearchPage extends React.Component {
               autoComplete: 'off',
             }}
           />
+          <CommandButton
+            data-automation-id='search'
+            iconProps={{ iconName: 'Search' }}
+            disabled={!valid}
+            type="submit"
+          >
+            Search
+        </CommandButton>
         </Form>
         {(!data || data.length === 0) && <p>No results</p>}
         {
@@ -103,6 +120,7 @@ SearchPage.propTypes = {
 
   // reduxForm props
   handleSubmit: PropTypes.func.isRequired,
+  valid: PropTypes.bool.isRequired,
 
   // Router props
   history: PropTypes.shape({

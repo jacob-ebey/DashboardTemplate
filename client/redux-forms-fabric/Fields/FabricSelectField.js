@@ -7,7 +7,7 @@ export default class FabricSelectField extends React.Component {
   render = () => {
     const { input, meta, options, ...rest } = this.props;
     const { value, onBlur, onChange, onFocus } = input;
-    const { dirty, error } = meta;
+    const { error } = meta;
 
     return (
       <Dropdown
@@ -15,7 +15,7 @@ export default class FabricSelectField extends React.Component {
         onChanged={(value) => onChange(value.key)}
         onBlur={onBlur}
         onFocus={onFocus}
-        errorMessage={dirty ? error : null}
+        errorMessage={error}
         options={options}
         {...rest}
       />
@@ -31,7 +31,6 @@ FabricSelectField.propTypes = {
     onFocus: PropTypes.func.isRequired,
   }).isRequired,
   meta: PropTypes.shape({
-    dirty: PropTypes.bool,
     error: PropTypes.string,
   }).isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({

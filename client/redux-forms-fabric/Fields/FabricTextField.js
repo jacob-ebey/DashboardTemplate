@@ -7,7 +7,7 @@ export default class FabricTextField extends React.Component {
   render = () => {
     const { input, meta, ...rest } = this.props;
     const { value, onBlur, onChange, onFocus } = input;
-    const { dirty, error } = meta;
+    const { error } = meta;
 
     return (
       <TextField
@@ -15,7 +15,7 @@ export default class FabricTextField extends React.Component {
         onChanged={onChange}
         onBlur={onBlur}
         onFocus={onFocus}
-        onGetErrorMessage={() => dirty ? error : ''}
+        errorMessage={error}
         {...rest}
       />
     );
@@ -30,7 +30,6 @@ FabricTextField.propTypes = {
     onFocus: PropTypes.func.isRequired,
   }).isRequired,
   meta: PropTypes.shape({
-    dirty: PropTypes.bool,
     error: PropTypes.string,
   }).isRequired,
   type: PropTypes.string,
