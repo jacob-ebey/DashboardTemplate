@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  DatePicker,
-  DayOfWeek,
-} from 'office-ui-fabric-react/lib/DatePicker';
+import { DatePicker, DayOfWeek } from 'office-ui-fabric-react/lib/DatePicker';
+
+import ErrorMessage from './ErrorMessage';
 
 
 export default class FabricDateField extends React.Component {
@@ -26,13 +25,7 @@ export default class FabricDateField extends React.Component {
           allowTextInput={true}
           {...rest}
         />
-        {
-          error ?
-            <span className="fabricError ms-TextField-errorMessage css-180bpec errorMessage_277345e8">
-              <i className="ms-Icon ms-Icon--Info css-liugll errorIcon_277345e8" aria-hidden="true" />
-              {error}
-            </span> : null
-        }
+        <ErrorMessage error={error} />
       </div>
     );
   }

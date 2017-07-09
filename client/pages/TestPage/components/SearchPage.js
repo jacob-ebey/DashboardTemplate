@@ -12,7 +12,7 @@ import { List, ListItem } from 'material-ui/List';
 
 import { Loader } from '~/client/core';
 
-import { FabricDateField, FabricSelectField, FabricTextField, Validations } from '~/client/redux-forms-fabric';
+import { FabricCheckbox, FabricDateField, FabricSelectField, FabricTextField, Validations } from '~/client/redux-forms-fabric';
 
 import * as actions from '../actions';
 import { testActions } from '../actionTypes';
@@ -78,6 +78,13 @@ class SearchPage extends React.Component {
               label: 'Query',
               iconProps: { iconName: 'Search' },
               autoComplete: 'off',
+            }}
+          />
+          <Field
+            name="checked"
+            component={FabricCheckbox}
+            props={{
+              label: 'Checkbox'
             }}
           />
           <CommandButton

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 
+
 export default class FabricTextField extends React.Component {
   render = () => {
     const { input, meta, ...rest } = this.props;
